@@ -1,0 +1,65 @@
+
+
+Ficha 2 EA02_nonio.pdf:
+
+Exercicio 1:
+a) 1^2 + 2^2 + ... + n^2 = n(n+1)(2n+1)/6
+
+    Case Base:
+        n = 1
+        1 = 1(1+1)(2+1)/6 <=> 1 = (1+2+3)/6 <=> 1 = 1
+        
+    Hip Indutiva:
+        1^2 + 2^2 + ... + k^2 = k(k+1)(2k+1)/6
+
+    Passo indutivo:
+        1^2 + 2^2 + ... + k^2 + (k+1)^2 = (k+1)(k+2)(2(k+1)+1)/6
+               k(k+1)(2k+1)/6 + (k+1)^2 = (k+1)(k+2)(2(k+1))/6
+               k(k+1)(2k+1)(6(k+1)^2)/6 = (k+1)(k+2)(2(k+1))/6
+               k(k+1)(2k+1)(6(k+1)^2)   = (k+1)(k+2)(2(k+1))
+               (k+1)(k(2k+1)+6(k+1))    = (k+1)(k+2)(2(k+1))
+               k(2k+1)+6(k+1)           = (k+2)(2k+3)
+               2k^2 + 7k + 6            = 2k^2 + 7k + 6
+
+
+
+
+
+
+
+
+b) For any n >= 7, we have that n! > 3^n
+    Case Base:
+        n = 7
+        7! = 3^7
+        7*6*5*4*3*2*1 = 2187
+        5040 = 2187
+    
+    Hip Indutiva:
+        k! > 3^k
+    Passo Indutivo:
+        k! * (k+1) > 3^(k+1)
+        k! * (k+1) > 3^k * 3
+        visto que o k é no minimo 7, então os numeros da esquerda são garantidamente superiores aos da esquerda.
+
+
+
+Exercicio 2:
+    Case Base:
+        F(n) = n!
+        F(0) = 0! <=>
+        1   = 1 
+        Funciona!!
+
+    Hip Indutiva:
+        F(k) = k!
+
+    Passo indutivo:
+        F(k+1) = (k+1)! <=>
+        F(k) * (k+1) = (k+1) * k!
+        (k+1) = (k+1)
+
+
+Exercicio 3:
+
+    Caso Base:
