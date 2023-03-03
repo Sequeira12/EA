@@ -1,0 +1,46 @@
+Ficha 4
+352	-- Mooshak
+
+7
+3 8
+8 1 1
+2 7 4 4
+4 5 2 6 5
+
+O subproblema F(i,j) é calcular a soma maxima de i, j para baixo
+
+
+
+
+
+F (x,i,j):
+
+    if i == N - 1;
+        return M[i][j]
+    
+    L = F (s+M[i][j],i + 1,j)           
+    M = F (s+M[i][j],i + 1,j + 1)  
+
+N linhas
+N colunas
+M matriz
+dp é uma global N*N inicializada a 0
+
+
+F(i,j):
+    if i == N - 1;          //CASO BASE
+        return M[i][j]
+
+    if dp[i][j] != 0:       //RELACAO DE RECORRENCIA
+        return dp[i][j]         
+    L = F (i + 1,j)    
+    M = F (i + 1,j + 1)
+    dp[i][j] = M[i][j] + ma(L,M)
+    return dp[i][j]
+
+
+Assumimos que F(i,j) dá o máximo de (i,j) para baixo
+
+Negação:
+    w = F(i,j) - M[i][j] é menor que F(i-1,j-1)
+    Logo, é possivel chegar a F(i-1,j-1) com um caminho melhor e a F(i,j) com um valor melhor.
