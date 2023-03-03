@@ -44,3 +44,30 @@ Assumimos que F(i,j) dá o máximo de (i,j) para baixo
 Negação:
     w = F(i,j) - M[i][j] é menor que F(i-1,j-1)
     Logo, é possivel chegar a F(i-1,j-1) com um caminho melhor e a F(i,j) com um valor melhor.
+    Dado que F(i-1,j+1) + M[i][j] > w                                           // contradição
+
+
+    PAssamos de 2^N, para N^2
+
+
+Exercicio 1b)
+
+7
+3 8
+8 1 1
+2 7 4 4
+4 5 2 6 5
+
+30
+23 21
+20 13 11 
+7 12 10 10 
+4 5 2 6 5
+
+
+
+F():
+    for i=N-1 to 0:
+        for j=0 to i-1:
+            dp[i][j] = M[i][j] + max(dp[i+1][j],dp[i+1][j+1])
+    return dp[0][0]        

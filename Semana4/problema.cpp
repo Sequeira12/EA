@@ -1,88 +1,57 @@
+
 #include <iostream>
-#include <array>
+#include <algorithm>
+#include <vector>
 using namespace std;
-#define tamanho 12
-int grafo[tamanho][tamanho];
-int best = 10000000;
+
 int m, n;
-int connected[tamanho];
-int deg[tamanho];
+
 int k;
-int a = 0;
-int no1, no2, custo;
-int numero = 0;
-void imprime(int valor);
-void Funcao(int V, int custo);
+int F(vector<vector<int>> &dp, vector<vector<int>> &M);
 int main()
 {
     // n m k
-    while (cin >> n >> m >> k)
+    cin >> n;
+    for (int i = 0; i < n; i++)
     {
-        best = 10000000;
-        for (int c = 0; c < n; c++)
-        {
-            for (int l = 0; l < n; l++)
-            {
-                grafo[l][c] = -1;
-            }
-        }
+        cin >> m;
+
+        vector<vector<int>> M;
+        M = vector<vector<int>>(m + 1, vector<int>(m + 1, 0));
+        vector<vector<int>> dp;
+        dp = vector<vector<int>>(m + 1, vector<int>(m + 1, 0));
         for (int i = 0; i < m; i++)
         {
 
-            cin >> no1 >> no2 >> custo;
-            grafo[no1 - 1][no2 - 1] = custo;
-            grafo[no2 - 1][no1 - 1] = custo;
-            deg[no1 - 1] = 0;
-            connected[no1 - 1] = false;
-            connected[no2 - 1] = false;
-            deg[no2 - 1] = 0;
+            for (int j = 0; j <= i; j++)
+            {
+                cin >> k;
 
-            connected[1] = true;
+                M[i][j] = k;
+                dp[i][j] = 0;
+            }
         }
 
-        Funcao(0, 0);
-        if (best != 10000000)
+        for (int j = 0; j < m + 1; j++)
         {
-            printf("%d\n", best);
+            M[m][j] = 0;
+            dp[m][j] = 0;
         }
-        else
-        {
-            printf("NO WAY!\n");
-        }
+
+        int a = F(dp, M);
+        cout << a << endl;
     }
 }
 
-void Funcao(int V, int custo)
+int F(vector<vector<int>> &dp, vector<vector<int>> &M)
 {
-
-    if (custo >= best)
+    for (int k = m - 1; k >= 0; k--)
     {
-        return;
-    }
-    if (V == n - 1)
-    {
-        best = custo;
-    }
-    for (int i = 0; i < n; i++)
-    {
-
-        if (connected[i] == true && deg[i] < k)
+        for (int j = 0; j <= k; j++)
         {
-            for (int j = 0; j < n; j++)
-            {
-                if (connected[j] == false && grafo[i][j] >= 0)
-                {
-
-                    deg[i] += 1;
-                    deg[j] += 1;
-                    connected[j] = true;
-
-                    Funcao(V + 1, custo + grafo[i][j]);
-                    deg[i] -= 1;
-                    deg[j] -= 1;
-                    connected[j] = false;
-                }
-            }
+            // printf("%d %d\n", k, j);
+            dp[k][j] = M[k][j] + max(dp[k + 1][j], dp[k + 1][j + 1]);
         }
     }
+    return dp[0][0];
 }
