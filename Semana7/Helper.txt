@@ -1,26 +1,132 @@
-Ficha 5
-Subset sum para C = Sumatorio(i=1,N) de ti/2
+Ficha 7
+
+   FCOST|  Transportation cost to supermarket
+________|__1_____2_____3____4_____5________
+1   10  |  8     6     10    8   10
+2   9   |  1     2     10    4   8
+3   10  |  6     4      2    1   5
+4   1   | 10     4      6    9   3 
+
+Exercicio1 
+
+Opção A: 
+
+        (1) 
+(sim) /    \ (nao)
+    /       \ 
+  (2)       (2) 
+  / \       / \ 
+(3) (3)   (3) (3)
+
+Opção B:
+
+        M 
+f(x) = E       min  TransportationCost (j,i) ---> (sujeito) a xj = 1
+       i = 1    j e {1,..,N}
+                xj = 1
 
 
-pizza |  ti
-______|_____
-1     |   1
-2     |   2
-3     |   1
-4     |   3
 
 
-if j < t:
-    dp[i,j]  = dp[i-1,j];
-else
-    dp[i,j] = dp[i-1,j] or dp[i-1,j-t]    
+        M 
+lb(x) = E       min  TransportationCost (j,i) --> (sujeito) a xj > 0
+       i = 1    j e {1,..,N}
+                xj >0 
+
+lb(x') <= f(x) ;
+
+x'j = 0 --> armazem não construido
+x'j = 1 --> armazem construido
+x'j = 2 --> incógnita
 
 
-i/C | 0   |  1  |  2  |  3  |
-0   |  T  |  F  |  F  |  F  |
-1   |  T  |  T  |  F  |  F  |   
-2   |  T  |  T  |  T  |  T  |
-3   |  T  |  T  |  T  |  T  |
-4   |  T  |  T  |  T  |  F  |
-4   |  T  |  T  |  T  |  F  |
+x' solução incompleta
 
+
+
+x1 = [2,2,2,2];
+
+lb(x1) 1 + 2 + 2 + 1 + 3 = 9
+
+x2 = [1,0,2,2];
+
+lb(x2) = 6 + 4 + 2 + 1 + 3 = 16 
+
+
+x é solucao completa derivada de x'.
+
+
+ub(x') >=  f(x)
+
+
+
+Exercicio2 (MOOSHAK)
+
+
+
+1 ---- 3
+|   /
+| /
+2
+|
+|
+|
+4
+
+4 so conhece o 2, 2 conhece todos, o 3 so conhece o 1 e 2
+
+
+
+
+ 0 conhece 1,4,2,3,5  e o 1 conhece o 5
+
+
+
+                    0
+              /   /    \    \     \
+             5 _ 1      4    2     3          
+
+
+      N-1
+f(x) = E xi
+      i = 0
+
+
+ub(x') >= f(x)
+
+
+g sao as ligacoes 
+
+F(pessoa i, solucao x,contagem c){
+    if  i == N :
+        if c > best:
+            best = c;
+        return;
+    if ub(i,x,c) <= best:
+        return;
+
+    x[i] = False;
+    F(i+1,x,c);
+    b = True;
+    for j = 0 to i - 1:
+        if x[j] = true and g[i][j] == true:
+            b = false;
+            return;
+    if b == True:
+        x[i] = True
+        F(i+1,x,c+1)            
+}
+
+ub(i,x,c):
+    for j = i to N - 1:
+        b = true;
+        for k = 0 to i - 1:
+            if x[k] == True  and g[j][k]  = True:
+                b = false;
+                break;
+
+        if b == true:
+            c+=1
+    return c;          
+
+    sudo g++ -std=c++17 -O2 "projeto.cpp" -lm
