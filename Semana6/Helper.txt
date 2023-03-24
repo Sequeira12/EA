@@ -1,26 +1,38 @@
-Ficha 5
-Subset sum para C = Sumatorio(i=1,N) de ti/2
+Ficha 6
+1.
+
+3 3 2 2 2
+
+colocar primeiro na mais vazia, em caso de empate colocar no 1
+
+3  | 3
+2  | 2
+2  |
+   |
+7    5
+logo nao funciona
 
 
-pizza |  ti
-______|_____
-1     |   1
-2     |   2
-3     |   1
-4     |   3
+
+2.
+
+1.ordenar os objetos de forma crescente
+2.colocar um guarda que cubra o primeiro objeto livre (no seu limite esquerdo)
+3.repetir 2 ate ter todos os objetos protegidos
+
+o subproblema é preencher os guardas de uma certa posicao para a frente
+a posicao gulosa é colocar o guarda de forma a cobrir o maior numero de objetos
 
 
-if j < t:
-    dp[i,j]  = dp[i-1,j];
-else
-    dp[i,j] = dp[i-1,j] or dp[i-1,j-t]    
+provar que é subestrutura otima (contradicao):
+
+Assumir: Temos uma solucao gulosa otima para todos os objetos
+
+Retirar o ultimo guarda  -> Temos uma solucao otima para os objetos que sobram (ainda protegidos)
+
+Se esta nao for a solucao otima entao era possivel ter uma solucao otima melhor para todos os objetos
 
 
-i/C | 0   |  1  |  2  |  3  |
-0   |  T  |  F  |  F  |  F  |
-1   |  T  |  T  |  F  |  F  |   
-2   |  T  |  T  |  T  |  T  |
-3   |  T  |  T  |  T  |  T  |
-4   |  T  |  T  |  T  |  F  |
-4   |  T  |  T  |  T  |  F  |
-
+provar propriedade gulosa:
+    a posicao gulosa é colocar o guarda de forma a cobrir o maior numero de objetos
+    ou seja, colocar o guarda de forma a que tenha um objeto no seu limite esquerdo
