@@ -2,48 +2,95 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <stack>
 using namespace std;
 
 int n, m, p1, p2;
-int valorReal = 0;
-int help;
-int k;
 int N;
-int best = 0;
-vector<vector<bool>> g;
 
-int ub(int i, vector<bool> &x, int contador)
+int vis = 0;
+vector<vector<int>> g;
+
+vector<int> color;
+
+bool colorir(int u)
 {
-    for (int j = i; j <= N - 1; j++)
-    {
 
-        bool b = true;
-        for (int k = 0; k <= i - 1; k++)
+    stack<int>
+        s;
+
+    color[u] = 1;
+    s.push(u);
+
+    while (s.size() > 0)
+    {
+        int k = s.top();
+        s.pop();
+
+        for (int v = 1; v <= N; v++)
         {
-            if (x[k] == true and g[j][k] == true)
+
+            if (g[k][v] == 1)
             {
-                b = false;
-                break;
+
+                if (color[v] == 0)
+                {
+                    color[v] = (color[k] % 2) + 1;
+                    s.push(v);
+                }
+                else if (color[k] == color[v] && k != v)
+                {
+
+                    return false;
+                }
             }
         }
-        if (b == true)
-        {
-
-            contador += 1;
-        }
     }
-    return contador;
+    return true;
 }
 
-void F(int i, vector<bool> &x, int contador)
+bool F(int N)
 {
+
+    for (int i = 1; i <= N; i++)
+    {
+
+        if (color[i] == 0)
+        {
+
+            if (colorir(i) == false)
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 int main()
 {
 
-    cin >> N >> m;
+    while (cin >> N >> m)
+    {
 
-    vector<bool> x = vector<bool>(N, false);
-    g = vector<vector<bool>>(N, vector<bool>(N, false));
+        g = vector<vector<int>>(N + 1, vector<int>(N + 1, 0));
+        color = vector<int>(N + 1, 0);
+
+        while (m--)
+        {
+            cin >> p1 >> p2;
+            g[p1][p2] = 1;
+            g[p2][p1] = 1;
+        }
+
+        if (F(N))
+        {
+            cout << "NOT SURE\n";
+        }
+        else
+        {
+            cout << "NO\n";
+        }
+    }
 }
