@@ -1,96 +1,60 @@
-
 #include <iostream>
-#include <algorithm>
 #include <vector>
-#include <stack>
+#include <queue>
+#include <climits>
+
 using namespace std;
 
-int n, m, p1, p2;
-int N;
+typedef pair<int, int> par;
+vector<vector<int>> G;
 
-int vis = 0;
-vector<vector<int>> g;
+const int infinito = INT_MAX;
 
-vector<int> color;
-
-bool colorir(int u)
+int dijkstra(int n, int dest, vector<vector<int>> &G)
 {
+    vector<int> dist(n, infinito);
+    priority_queue<par, vector<par>, greater<par>> pq;
 
-    stack<int>
-        s;
+    dist[0] = 0;
+    pq.push({0, 0});
 
-    color[u] = 1;
-    s.push(u);
-
-    while (s.size() > 0)
+    while (!pq.empty())
     {
-        int k = s.top();
-        s.pop();
+        int u = pq.top().second;
+        pq.pop();
 
-        for (int v = 1; v <= N; v++)
+        for (int v = 0; v < n; v++)
         {
-
-            if (g[k][v] == 1)
+            int w = G[u][v];
+            if (w >= 0 && dist[v] > dist[u] + w)
             {
-
-                if (color[v] == 0)
-                {
-                    color[v] = (color[k] % 2) + 1;
-                    s.push(v);
-                }
-                else if (color[k] == color[v] && k != v)
-                {
-
-                    return false;
-                }
-            }
-        }
-    }
-    return true;
-}
-
-bool F(int N)
-{
-
-    for (int i = 1; i <= N; i++)
-    {
-
-        if (color[i] == 0)
-        {
-
-            if (colorir(i) == false)
-            {
-                return false;
+                dist[v] = dist[u] + w;
+                pq.push({dist[v], v});
             }
         }
     }
 
-    return true;
+    return dist[dest];
 }
 
 int main()
 {
+    int number, ids;
+    cin >> number >> ids;
+    vector<vector<int>> G(number, vector<int>(number));
 
-    while (cin >> N >> m)
+    for (int i = 0; i < number; i++)
     {
-
-        g = vector<vector<int>>(N + 1, vector<int>(N + 1, 0));
-        color = vector<int>(N + 1, 0);
-
-        while (m--)
+        int id;
+        cin >> id;
+        for (int j = 0; j < number; j++)
         {
-            cin >> p1 >> p2;
-            g[p1][p2] = 1;
-            g[p2][p1] = 1;
-        }
-
-        if (F(N))
-        {
-            cout << "NOT SURE\n";
-        }
-        else
-        {
-            cout << "NO\n";
+            cin >> G[i][j];
         }
     }
+
+    int custo = dijkstra(number, ids - 1, G);
+    cout << custo << endl;
+
+    return 0;
 }
