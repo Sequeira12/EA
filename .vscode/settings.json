@@ -5,6 +5,8 @@
         "vector": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "istream": "cpp",
+        "iosfwd": "cpp"
     }
 }
