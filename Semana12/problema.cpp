@@ -11,81 +11,85 @@ vector<int> parent;
 vector<bool> visited;
 vector<bool> articulation_points;
 int timee = 0;
+int n;
+vector<pair<int, int>> coords;
+stack<pair<int, int>> S;
 
-void AP(int v)
+pair<int, int> BottomMost()
 {
-    int children = 0;
-    visited[v] = true;
-    dfs[v] = low[v] = ++timee;
-    for (int w = 1; w < G.size(); w++)
+    pair<int, int> bot = coords[0];
+    for (pair<int, int> v : coords)
     {
-        if (G[v][w])
+        if (v.second < bot.second)
         {
-            if (!visited[w])
-            {
-                children++;
-                parent[w] = v;
-                AP(w);
-                low[v] = min(low[v], low[w]);
-                if (parent[v] == 0 && children > 1)
-                {
-                    articulation_points[v] = true;
-                }
-                if (parent[v] != 0 && low[w] >= dfs[v])
-                {
-                    articulation_points[v] = true;
-                }
-            }
-            else if (w != parent[v])
-            {
-                low[v] = min(low[v], dfs[w]);
-            }
+            bot = v;
+        }
+        else if (v.second == bot.second)
+        {
+            bot = v;
         }
     }
+    return bot;
+}
+
+int CW(pair<int, int> a, pair<int, int> b, pair<int, int> c)
+{
+    int area = (b.first - a.first) * (c.second - a.second) - (b.second - a.second) * (c.first - a.first);
+    if (area > 0)
+        return -1;
+    else if (area < 0)
+        return 1;
+    return 0;
+}
+pair<int, int> nextToTop(stack<pair<int, int>> &S)
+{
+    pair<int, int> p = S.top();
+    S.pop();
+    pair<int, int> res = S.top();
+    S.push(p);
+    return res;
+}
+
+void F()
+{
+    pair<int, int> find = BottomMost();
+
+    sort(coords.begin() + 1, coords.end(), [find](pair<int, int> p1, pair<int, int> p2)
+         { return CW(find, p1, p2); });
+
+    S.push(find);
+    S.push(coords[1]);
+
+    for (int i = 2; i < n; i++)
+    {
+
+        while (CW(nextToTop(S), S.top(), coords[i]) < 0)
+        {
+            S.pop();
+        }
+        S.push(coords[i]);
+    }
+    printf("|%lu|\n", S.size());
 }
 
 int main()
 {
-    int n;
-    while (cin >> n && n != 0)
+    int x, y;
+    while (cin >> n)
     {
-        G = vector<vector<int>>(n + 1, vector<int>(n + 1, 0));
-        dfs = vector<int>(n + 1, 0);
-        low = vector<int>(n + 1, 0);
-        parent = vector<int>(n + 1, 0);
-        visited = vector<bool>(n + 1, false);
-        articulation_points = vector<bool>(n + 1, false);
-        timee = 0;
 
-        int v, w;
-        while (cin >> v && v != 0)
+        if (n == 0)
         {
-            while (cin.get() != '\n')
-            {
-                cin >> w;
-                G[v][w] = 1;
-                G[w][v] = 1;
-            }
+            break;
         }
-
-        for (int i = 1; i <= n; i++)
+        coords.clear();
+        pair<int, int> cordenadas;
+        for (int i = 0; i < n; i++)
         {
-            if (!visited[i])
-            {
-                AP(i);
-            }
+            cin >> cordenadas.first >> cordenadas.second;
+            coords.push_back(cordenadas);
         }
-
-        int count = 0;
-        for (int i = 1; i <= n; i++)
-        {
-            if (articulation_points[i])
-            {
-                count++;
-            }
-        }
-
-        cout << count << endl;
+        F();
     }
 
     return 0;

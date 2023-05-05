@@ -1,8 +1,9 @@
 Ficha 10:
 
-Exercicio 1: 
 
-    AP = { 4,5,7 }
-
-Exercicio 2:
-    S = [5,]
+f(points,p):
+    hull = convex_hull(points U {p})
+    if p in hull:
+        print("F")
+    else:
+        print("T")
