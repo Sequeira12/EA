@@ -1,0 +1,8 @@
+Ficha 10:
+
+Exercicio 1: 
+
+    AP = { 4,5,7 }
+
+Exercicio 2:
+    S = [5,]
